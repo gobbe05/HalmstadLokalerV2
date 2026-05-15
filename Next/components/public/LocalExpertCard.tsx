@@ -1,5 +1,5 @@
 'use client'
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Clock, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -19,7 +19,7 @@ export function LocalExpertCard({ guide }: LocalExpertCardProps) {
 
   return (
     <Link
-      to={`/lokalexperten/${guide.slug}`}
+      href={`/lokalexperten/${guide.slug}`}
       className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl"
     >
       <Card className="overflow-hidden border-0 bg-card transition-all duration-300 shadow-card sm:border sm:border-border/50 sm:hover:border-accent/30 hover-lift h-full flex flex-col">

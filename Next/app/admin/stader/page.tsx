@@ -1,5 +1,5 @@
+'use client'
 import { useState, useMemo, useCallback } from "react";
-import { Link } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/layouts/AdminLayout";
 import { useCities, useCreateCity, useUpdateCity, useDeleteCity } from "@/hooks/useCities";
@@ -35,6 +35,7 @@ import { CityLaunchChecklist, getCityLaunchReadiness } from "@/components/admin/
 import { CityImageUpload } from "@/components/admin/CityImageUpload";
 import { CitySchemaConfig } from "@/components/admin/CitySchemaConfig";
 import type { City } from "@/contexts/CityContext";
+import Link from "next/link";
 
 type FilterMode = "all" | "published" | "unpublished" | "not-ready";
 
@@ -597,7 +598,7 @@ export default function AdminCitiesPage() {
                           className="h-7 w-7"
                           asChild
                         >
-                          <Link to={`/admin/kunder/${customer.id}`}>
+                          <Link href={`/admin/kunder/${customer.id}`}>
                             <ExternalLink className="w-4 h-4" />
                           </Link>
                         </Button>

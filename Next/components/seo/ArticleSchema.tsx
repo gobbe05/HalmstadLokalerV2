@@ -1,5 +1,4 @@
 'use client'
-import { Helmet } from "react-helmet-async";
 import { useCityContext } from "@/contexts/CityContext";
 import { useSiteSchemaConfig } from "@/hooks/useSiteSchemaConfig";
 
@@ -90,11 +89,12 @@ export function ArticleSchema({
   }
 
   return (
-    <Helmet>
+    /*<Helmet>
       <script type="application/ld+json">
         {JSON.stringify(structuredData)}
       </script>
-    </Helmet>
+    </Helmet>*/
+    <></>
   );
 }
 

@@ -1,3 +1,4 @@
+'use client'
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -23,12 +24,11 @@ import {
 } from "@/lib/localexpert";
 import { fetchProperties } from "@/lib/properties";
 import { useCityContext } from "@/contexts/CityContext";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function LocalExpertDetailPage() {
-  const searchParams = useSearchParams();
-  const slug = searchParams.get("slug") || undefined;
+  const {slug} = useParams();
   
   const { currentCity } = useCityContext();
   const cityId = currentCity?.id || "halmstad";

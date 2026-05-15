@@ -1,9 +1,10 @@
+'use client'
 import { SEOHead } from "@/components/seo/SEOHead";
 import { PublicHeader } from "@/components/public/PublicHeader";
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { MatchingWidget } from "@/components/public/MatchingWidget";
 import { PropertyType } from "@/types/property";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 const URL_TYPE_MAP: Record<string, PropertyType> = {
   kontor: "OFFICE",
@@ -16,8 +17,8 @@ const URL_TYPE_MAP: Record<string, PropertyType> = {
 };
 
 export default function FindPropertyPage() {
-  const searchParams = useSearchParams();
-  const typParam = searchParams.get("typ")?.toLowerCase();
+  
+  const {typParam} = useParams()
   const preselectedType = typParam ? URL_TYPE_MAP[typParam] : undefined;
 
   return (

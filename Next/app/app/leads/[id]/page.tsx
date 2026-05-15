@@ -1,3 +1,4 @@
+'use client'
 import { ArrowLeft, Phone, Mail, Building2, MessageSquare, Send, Calendar, Loader2, User, ExternalLink } from "lucide-react";
 import { format } from "date-fns";
 import { sv } from "date-fns/locale";
@@ -38,7 +39,6 @@ const statusColors: Record<LeadStatus, string> = {
 
 export default function AppLeadDetailPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const {id} = useParams();
   const { data: leads, isLoading } = useLeads();
   const updateStatus = useUpdateLeadStatus();

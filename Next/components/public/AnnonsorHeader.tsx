@@ -1,6 +1,6 @@
 'use client'
 import { Phone, Mail } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 export interface AnnonsorHeaderProps {
   logoUrl?: string | null;
@@ -79,7 +79,7 @@ export function AnnonsorHeader({
           {/* LEFT ZONE: Identity */}
           {backLink ? (
             <Link 
-              to={backLink} 
+              href={backLink} 
               className="flex items-center gap-4 hover:opacity-80 transition-opacity"
             >
               {IdentityContent}

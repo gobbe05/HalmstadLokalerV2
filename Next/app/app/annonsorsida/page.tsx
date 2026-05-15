@@ -1,3 +1,4 @@
+'use client'
 import { useState } from "react";
 import { AppLayout } from "@/components/layouts/AppLayout";
 import { useCurrentProfile } from "@/hooks/useCurrentProfile";
