@@ -1,10 +1,10 @@
 'use client'
-import { Link } from "react-router-dom";
 import { Building2, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PropertyOwner } from "@/hooks/usePropertyOwners";
 import { getImageUrl } from "@/lib/imageUtils";
+import Link from "next/link";
 
 interface PropertyOwnerCardHorizontalProps {
   owner: PropertyOwner;
@@ -20,7 +20,7 @@ export function PropertyOwnerCardHorizontal({ owner }: PropertyOwnerCardHorizont
     .toUpperCase();
 
   return (
-    <Link to={`/fastighetsagare/${owner.slug}`} className="group block">
+    <Link href={`/fastighetsagare/${owner.slug}`} className="group block">
       <Card className="overflow-hidden border border-border/50 bg-card transition-all duration-300 shadow-card hover:border-accent/30 hover:shadow-elevated">
         <div className="flex flex-col sm:flex-row">
           {/* Logo section - left side */}
