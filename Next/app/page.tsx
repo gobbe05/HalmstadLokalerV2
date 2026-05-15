@@ -86,7 +86,7 @@ export default function HomePage() {
 
   const cityName = currentCity?.name || "Halmstad";
   const seoTitle = currentCity?.seo_title || `Lediga lokaler i ${cityName} | Hitta din nästa lokal`;
-  const seoDescription = currentCity?.seo_description || `Hitta lediga lokaler i ${cityName} för företag i alla storlekar. Sök kontor, lager, butiker, industrilokaler och flexibla arbetsytor. Jämför objekt, lägen och priser för att hitta rätt lokal för din verksamhet.`;
+  const seoDescription = currentCity?.seo_description || `Hitta lediga lokaler i ${cityName} för företag i alla storlekar. Sök kontor, lager, butiker och industrilokaler. Jämför lägen och priser för rätt lokal.`;
 
   return (
     <>
