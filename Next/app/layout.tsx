@@ -15,27 +15,23 @@ import { PageLoader } from '@/components/ui/PageLoader';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [client] = useState(() => new QueryClient());    return (
-    <html lang="en">
-      <body>
-        <Suspense fallback={<PageLoader />}>
-        <QueryClientProvider client={client}>
-            <Toaster />
-            <Sonner />
-            <ScrollToTop />
-            <ScrollToTopButton />
-            <AuthProvider>
-                <PublicAuthProvider >
-                    <ImpersonationProvider>
-                        <ImpersonationBanner />
-                        <CityProvider>
-                            {children}
-                        </CityProvider>
-                    </ImpersonationProvider>
-                </PublicAuthProvider>
-            </AuthProvider>
-        </QueryClientProvider>
-        </Suspense>
-      </body>
-    </html>
+    <Suspense fallback={<PageLoader />}>
+    <QueryClientProvider client={client}>
+        <Toaster />
+        <Sonner />
+        <ScrollToTop />
+        <ScrollToTopButton />
+        <AuthProvider>
+            <PublicAuthProvider >
+                <ImpersonationProvider>
+                    <ImpersonationBanner />
+                    <CityProvider>
+                        {children}
+                    </CityProvider>
+                </ImpersonationProvider>
+            </PublicAuthProvider>
+        </AuthProvider>
+    </QueryClientProvider>
+    </Suspense>
   );
 }

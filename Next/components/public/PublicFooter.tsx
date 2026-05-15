@@ -1,6 +1,5 @@
 'use client'
 import { useCityContext } from "@/contexts/CityContext";
-import DOMPurify from "dompurify";
 import Link from "next/link";
 
 const FOOTER_CATEGORIES = [
