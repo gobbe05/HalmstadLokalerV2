@@ -85,8 +85,8 @@ export default function HomePage() {
   };
 
   const cityName = currentCity?.name || "Halmstad";
-  const seoTitle = currentCity?.seo_title || `Lediga lokaler i ${cityName}`;
-  const seoDescription = currentCity?.seo_description || `Hitta lediga lokaler i ${cityName}. Kontor, lager, butiker och mer.`;
+  const seoTitle = currentCity?.seo_title || `Lediga lokaler i ${cityName} | Hitta din nästa lokal`;
+  const seoDescription = currentCity?.seo_description || `Hitta lediga lokaler i ${cityName} för företag i alla storlekar. Sök kontor, lager, butiker, industrilokaler och flexibla arbetsytor. Jämför objekt, lägen och priser för att hitta rätt lokal för din verksamhet.`;
 
   return (
     <>
@@ -95,7 +95,13 @@ export default function HomePage() {
         description={seoDescription}
         canonical="/" 
       />
-      <LocalBusinessSchema />
+      <LocalBusinessSchema currentCity={{
+        id: "",
+        name: cityName,
+        domain: currentCity?.domain || "",
+        seo_description: seoDescription,
+        og_image_url: currentCity?.og_image_url || ""
+      }}  />
 
       <div className="min-h-screen grid grid-rows-[auto_auto_auto_1fr_auto]">
         <PublicHeader />
