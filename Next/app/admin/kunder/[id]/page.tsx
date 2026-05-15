@@ -70,7 +70,7 @@ export default function AdminCustomerDetailPage() {
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("id", id)
+        .eq("id", id as string)
         .maybeSingle();
 
       if (error) throw error;
@@ -98,7 +98,7 @@ export default function AdminCustomerDetailPage() {
           stad,
           leads(count)
         `)
-        .eq("owner_id", id);
+        .eq("owner_id", id as string);
 
       if (error) throw error;
 
@@ -118,7 +118,7 @@ export default function AdminCustomerDetailPage() {
       const { data, error } = await supabase
         .from("customer_billing")
         .select("*")
-        .eq("profile_id", id)
+        .eq("profile_id", id as string)
         .maybeSingle();
 
       if (error) throw error;
@@ -136,7 +136,7 @@ export default function AdminCustomerDetailPage() {
       const { data, error } = await supabase
         .from("advertiser_slugs")
         .select("slug, city_id, is_active, created_at")
-        .eq("profile_id", id)
+        .eq("profile_id", id as string)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -146,7 +146,7 @@ export default function AdminCustomerDetailPage() {
   });
 
   // Fetch advertiser page stats
-  const { data: advertiserPageStats } = useAdvertiserPageStats(id);
+  const { data: advertiserPageStats } = useAdvertiserPageStats(id as string);
 
   const toggleActiveMutation = useMutation({
     mutationFn: async ({ isActive }: { isActive: boolean }) => {
@@ -154,7 +154,7 @@ export default function AdminCustomerDetailPage() {
       const { error } = await supabase
         .from("profiles")
         .update({ is_active: isActive })
-        .eq("id", id);
+        .eq("id", id as string);
 
       if (error) throw error;
     },
@@ -173,7 +173,7 @@ export default function AdminCustomerDetailPage() {
       const { error } = await supabase
         .from("profiles")
         .update({ allowed_cities: allowedCities })
-        .eq("id", id);
+        .eq("id", id as string);
 
       if (error) throw error;
     },
@@ -192,7 +192,7 @@ export default function AdminCustomerDetailPage() {
       const { error } = await supabase
         .from("profiles")
         .update({ deleted_at: new Date().toISOString() })
-        .eq("id", id);
+        .eq("id", id as string);
 
       if (error) throw error;
     },
@@ -213,7 +213,7 @@ export default function AdminCustomerDetailPage() {
       const { error } = await supabase
         .from("profiles")
         .update({ deleted_at: null })
-        .eq("id", id);
+        .eq("id", id as string);
 
       if (error) throw error;
     },
@@ -257,14 +257,14 @@ export default function AdminCustomerDetailPage() {
       const { error: profileError } = await supabase
         .from("profiles")
         .update({ status: "approved" })
-        .eq("id", id);
+        .eq("id", id as string);
 
       if (profileError) throw profileError;
 
       const { error: listingsError } = await supabase
         .from("listings")
         .update({ status: "published" })
-        .eq("owner_id", id)
+        .eq("owner_id", id as string)
         .eq("status", "pending_approval");
 
       if (listingsError) throw listingsError;
@@ -286,7 +286,7 @@ export default function AdminCustomerDetailPage() {
       const { error } = await supabase
         .from("profiles")
         .update({ status: "rejected" })
-        .eq("id", id);
+        .eq("id", id as string);
 
       if (error) throw error;
     },
