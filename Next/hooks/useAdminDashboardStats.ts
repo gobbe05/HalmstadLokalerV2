@@ -1,3 +1,4 @@
+'use client'
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { startOfMonth, subMonths, format } from "date-fns";
