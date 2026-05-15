@@ -1,35 +1,32 @@
-'use client'
+// components/seo/ItemListSchema.tsx
 import { Property } from "@/types/property";
-import { useCityContext } from "@/contexts/CityContext";
 
 interface ItemListSchemaProps {
-  /** List title, e.g., "Lediga kontor i Halmstad" */
   name: string;
-  /** Properties to include in the list */
   properties: Property[];
-  /** Maximum items to include (default 10 for performance) */
   maxItems?: number;
+  currentCity?: {
+    name?: string;
+    domain?: string;
+  };
 }
 
-/**
- * Renders ItemList JSON-LD structured data for category/listing pages.
- * This helps Google understand that the page contains a list of items
- * and can enable rich snippets in search results.
- */
-export function ItemListSchema({ name, properties, maxItems = 10 }: ItemListSchemaProps) {
-  const { currentCity } = useCityContext();
-
+export function ItemListSchema({
+  name,
+  properties,
+  maxItems = 10,
+  currentCity,
+}: ItemListSchemaProps) {
   const siteUrl = currentCity?.domain
     ? `https://${currentCity.domain}`
     : "https://halmstadlokaler.se";
 
-  // Limit items for performance (too many items can slow down parsing)
   const limitedProperties = properties.slice(0, maxItems);
 
   const structuredData: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: name,
+    name,
     numberOfItems: properties.length,
     itemListElement: limitedProperties.map((property, index) => ({
       "@type": "ListItem",
@@ -61,12 +58,11 @@ export function ItemListSchema({ name, properties, maxItems = 10 }: ItemListSche
   };
 
   return (
-    /*<Helmet>
-      <script type="application/ld+json">
-        {JSON.stringify(structuredData)}
-      </script>
-    </Helmet>*/
-    <></>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(structuredData),
+      }}
+    />
   );
 }
-

@@ -1,28 +1,30 @@
-'use client'
+// components/seo/RealEstateListingSchema.tsx
 import { Property } from "@/types/property";
-import { useCityContext } from "@/contexts/CityContext";
 
 interface RealEstateListingSchemaProps {
   property: Property;
+  currentCity?: {
+    name?: string;
+    domain?: string;
+  };
 }
 
-/**
- * Renders RealEstateListing JSON-LD structured data for property detail pages.
- * This is more specific than the generic Offer+Place schema and is better
- * recognized by Google for real estate listings.
- */
-export function RealEstateListingSchema({ property }: RealEstateListingSchemaProps) {
-  const { currentCity } = useCityContext();
+export function RealEstateListingSchema({
+  property,
+  currentCity,
+}: RealEstateListingSchemaProps) {
+  const cityName = currentCity?.name || "Halmstad";
 
   const siteUrl = currentCity?.domain
     ? `https://${currentCity.domain}`
     : "https://halmstadlokaler.se";
 
   const propertyUrl = `${siteUrl}/lokal/${property.slug}`;
-  
-  const monthlyRent = property.rentPerSqmYear && property.area
-    ? Math.round((property.rentPerSqmYear * property.area) / 12)
-    : null;
+
+  const monthlyRent =
+    property.rentPerSqmYear && property.area
+      ? Math.round((property.rentPerSqmYear * property.area) / 12)
+      : null;
 
   const structuredData: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -33,12 +35,10 @@ export function RealEstateListingSchema({ property }: RealEstateListingSchemaPro
     datePosted: property.createdAt,
   };
 
-  // Images
-  if (property.images && property.images.length > 0) {
+  if (property.images?.length) {
     structuredData.image = property.images;
   }
 
-  // Offer with price
   if (monthlyRent) {
     structuredData.offers = {
       "@type": "Offer",
@@ -59,18 +59,16 @@ export function RealEstateListingSchema({ property }: RealEstateListingSchemaPro
     };
   }
 
-  // Address
   if (property.address || property.city || property.postalCode) {
     structuredData.address = {
       "@type": "PostalAddress",
       streetAddress: property.address || undefined,
       postalCode: property.postalCode || undefined,
-      addressLocality: property.city || currentCity?.name || "Halmstad",
+      addressLocality: property.city || cityName,
       addressCountry: "SE",
     };
   }
 
-  // Geo coordinates
   if (property.latitude && property.longitude) {
     structuredData.geo = {
       "@type": "GeoCoordinates",
@@ -79,7 +77,6 @@ export function RealEstateListingSchema({ property }: RealEstateListingSchemaPro
     };
   }
 
-  // Floor size
   if (property.area) {
     structuredData.floorSize = {
       "@type": "QuantitativeValue",
@@ -89,27 +86,20 @@ export function RealEstateListingSchema({ property }: RealEstateListingSchemaPro
     };
   }
 
-  // Property type
   if (property.typeLabel) {
     structuredData.additionalType = property.typeLabel;
   }
 
-  // Seller/advertiser info
   if (property.advertiser) {
     const seller: Record<string, unknown> = {
       "@type": "Organization",
       name: property.advertiser.companyName || "Annonsör",
     };
 
-    if (property.advertiser.email) {
-      seller.email = property.advertiser.email;
-    }
-    if (property.advertiser.phone) {
-      seller.telephone = property.advertiser.phone;
-    }
-    if (property.advertiser.companyLogo) {
-      seller.logo = property.advertiser.companyLogo;
-    }
+    if (property.advertiser.email) seller.email = property.advertiser.email;
+    if (property.advertiser.phone) seller.telephone = property.advertiser.phone;
+    if (property.advertiser.companyLogo) seller.logo = property.advertiser.companyLogo;
+
     if (property.advertiser.address || property.advertiser.city) {
       seller.address = {
         "@type": "PostalAddress",
@@ -123,12 +113,11 @@ export function RealEstateListingSchema({ property }: RealEstateListingSchemaPro
   }
 
   return (
-    /*<Helmet>
-      <script type="application/ld+json">
-        {JSON.stringify(structuredData)}
-      </script>
-    </Helmet>*/
-    <></>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(structuredData),
+      }}
+    />
   );
 }
-

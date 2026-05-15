@@ -1,28 +1,25 @@
-'use client'
-import { useCityContext } from "@/contexts/CityContext";
-import { useSiteSchemaConfig } from "@/hooks/useSiteSchemaConfig";
+// components/seo/ArticleSchema.tsx
 
 interface ArticleSchemaProps {
-  /** Article headline/title */
   headline: string;
-  /** Article description/excerpt */
   description: string;
-  /** ISO date string of publication */
   datePublished: string;
-  /** ISO date string of last modification (optional) */
   dateModified?: string;
-  /** Author name */
   authorName?: string;
-  /** Main image URL */
   image?: string;
-  /** Article URL path (without domain) */
   url: string;
+
+  currentCity?: {
+    name?: string;
+    domain?: string;
+    og_image_url?: string;
+  };
+
+  schemaConfig?: {
+    article_publisher?: string;
+  };
 }
 
-/**
- * Renders Article JSON-LD structured data for blog posts, guides, etc.
- * Uses site schema config for publisher information.
- */
 export function ArticleSchema({
   headline,
   description,
@@ -31,10 +28,9 @@ export function ArticleSchema({
   authorName,
   image,
   url,
+  currentCity,
+  schemaConfig,
 }: ArticleSchemaProps) {
-  const { currentCity } = useCityContext();
-  const { data: schemaConfig } = useSiteSchemaConfig();
-
   const siteUrl = currentCity?.domain
     ? `https://${currentCity.domain}`
     : "https://halmstadlokaler.se";
@@ -45,10 +41,10 @@ export function ArticleSchema({
   const structuredData: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: headline,
-    description: description,
+    headline,
+    description,
     url: `${siteUrl}${url}`,
-    datePublished: datePublished,
+    datePublished,
     dateModified: dateModified || datePublished,
     mainEntityOfPage: {
       "@type": "WebPage",
@@ -68,17 +64,15 @@ export function ArticleSchema({
   };
 
   // Author
-  if (authorName) {
-    structuredData.author = {
-      "@type": "Person",
-      name: authorName,
-    };
-  } else {
-    structuredData.author = {
-      "@type": "Organization",
-      name: publisherName,
-    };
-  }
+  structuredData.author = authorName
+    ? {
+        "@type": "Person",
+        name: authorName,
+      }
+    : {
+        "@type": "Organization",
+        name: publisherName,
+      };
 
   // Image
   if (image) {
@@ -89,12 +83,11 @@ export function ArticleSchema({
   }
 
   return (
-    /*<Helmet>
-      <script type="application/ld+json">
-        {JSON.stringify(structuredData)}
-      </script>
-    </Helmet>*/
-    <></>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(structuredData),
+      }}
+    />
   );
 }
-

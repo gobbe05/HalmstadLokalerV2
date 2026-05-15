@@ -1,7 +1,5 @@
-'use client'
-//import { Helmet } from "react-helmet-async";
+// components/seo/SEOHead.tsx
 import { Property } from "@/types/property";
-import { useCityContext } from "@/contexts/CityContext";
 
 interface SEOHeadProps {
   title?: string;
@@ -10,10 +8,16 @@ interface SEOHeadProps {
   property?: Property;
   type?: "website" | "article";
   image?: string;
-  /** For paginated pages: URL of the previous page (without domain) */
   prevPage?: string;
-  /** For paginated pages: URL of the next page (without domain) */
   nextPage?: string;
+  currentCity?: {
+    name?: string;
+    domain?: string;
+    seo_title?: string;
+    seo_description?: string;
+    og_image_url?: string;
+    hero_image_url?: string;
+  };
 }
 
 const DEFAULT_OG_IMAGE = "/og-image.jpg";
@@ -27,33 +31,33 @@ export function SEOHead({
   image,
   prevPage,
   nextPage,
+  currentCity,
 }: SEOHeadProps) {
-  const { currentCity } = useCityContext();
-  
-  // Dynamic defaults based on current city
   const cityName = currentCity?.name || "Halmstad";
   const siteName = `${cityName}Lokaler`;
-  const siteUrl = currentCity?.domain 
-    ? `https://${currentCity.domain}` 
+  const siteUrl = currentCity?.domain
+    ? `https://${currentCity.domain}`
     : "https://halmstadlokaler.se";
-  
-  const defaultTitle = currentCity?.seo_title || 
+
+  const defaultTitle =
+    currentCity?.seo_title ||
     `Lediga lokaler i ${cityName} – Kontor, Lager & Butiker | ${siteName}`;
-  const defaultDescription = currentCity?.seo_description ||
-    `Hitta lediga lokaler i ${cityName}. Kontor, lager, butiker, industrier, restauranger och mer. Filtrera snabbt bland kommersiella objekt och kontakta fastighetsägare direkt.`;
+
+  const defaultDescription =
+    currentCity?.seo_description ||
+    `Hitta lediga lokaler i ${cityName}. Kontor, lager, butiker, industrier, restauranger och mer.`;
 
   const pageTitle = title || defaultTitle;
   const pageDescription = description || defaultDescription;
   const canonicalUrl = canonical ? `${siteUrl}${canonical}` : siteUrl;
-  
-  // OG image priority: explicit prop → property image → city OG image → city hero → default
-  const ogImage = image 
-    || property?.images?.[0] 
-    || currentCity?.og_image_url 
-    || currentCity?.hero_image_url
-    || `${siteUrl}${DEFAULT_OG_IMAGE}`;
 
-  // Generate structured data for property (Place schema for SEO)
+  const ogImage =
+    image ||
+    property?.images?.[0] ||
+    currentCity?.og_image_url ||
+    currentCity?.hero_image_url ||
+    `${siteUrl}${DEFAULT_OG_IMAGE}`;
+
   const structuredData = property
     ? {
         "@context": "https://schema.org",
@@ -68,25 +72,25 @@ export function SEOHead({
           addressLocality: property.city || cityName,
           addressCountry: "SE",
         },
-        ...(property.latitude && property.longitude
-          ? {
-              geo: {
-                "@type": "GeoCoordinates",
-                latitude: property.latitude,
-                longitude: property.longitude,
-              },
-            }
-          : {}),
-        ...(property.rentPerSqmYear && property.area
-          ? {
-              additionalProperty: {
-                "@type": "PropertyValue",
-                name: "monthlyRent",
-                value: Math.round((property.rentPerSqmYear * property.area) / 12),
-                unitCode: "SEK",
-              },
-            }
-          : {}),
+        ...(property.latitude &&
+          property.longitude && {
+            geo: {
+              "@type": "GeoCoordinates",
+              latitude: property.latitude,
+              longitude: property.longitude,
+            },
+          }),
+        ...(property.rentPerSqmYear &&
+          property.area && {
+            additionalProperty: {
+              "@type": "PropertyValue",
+              name: "monthlyRent",
+              value: Math.round(
+                (property.rentPerSqmYear * property.area) / 12
+              ),
+              unitCode: "SEK",
+            },
+          }),
       }
     : {
         "@context": "https://schema.org",
@@ -101,8 +105,46 @@ export function SEOHead({
       };
 
   return (
-    <></>
+    <>
+      {/* Basic meta */}
+      <title>{pageTitle}</title>
+      <meta name="description" content={pageDescription} />
+      <link rel="canonical" href={canonicalUrl} />
 
+      {/* Pagination */}
+      {prevPage && <link rel="prev" href={`${siteUrl}${prevPage}`} />}
+      {nextPage && <link rel="next" href={`${siteUrl}${nextPage}`} />}
+
+      {/* OpenGraph */}
+      <meta property="og:title" content={pageTitle} />
+      <meta property="og:description" content={pageDescription} />
+      <meta property="og:type" content={type} />
+      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:site_name" content={siteName} />
+      <meta property="og:locale" content="sv_SE" />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={pageTitle} />
+      <meta name="twitter:description" content={pageDescription} />
+      <meta name="twitter:image" content={ogImage} />
+
+      {/* Robots */}
+      <meta name="robots" content="index, follow" />
+      <meta name="googlebot" content="index, follow" />
+
+      {/* Geo */}
+      <meta name="geo.region" content="SE-N" />
+      <meta name="geo.placename" content={cityName} />
+
+      {/* JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
+    </>
   );
 }
-
