@@ -1,0 +1,307 @@
+/* ============================================================
+   Tailwind v4 Core
+============================================================ */
+@import "tailwindcss";
+
+/* ============================================================
+   Tailwind v4 Content Scanning
+============================================================ */
+@source "./app/**/*.{js,jsx,ts,tsx,mdx}";
+@source "./components/**/*.{js,jsx,ts,tsx,mdx}";
+@source "./src/**/*.{js,jsx,ts,tsx,mdx}";
+@source "./pages/**/*.{js,jsx,ts,tsx,mdx}";
+
+/* ============================================================
+   THEME TOKENS (LIGHT MODE)
+============================================================ */
+@theme {
+  --color-background: #fdfcfb;
+  --color-foreground: #1c232e;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #1c232e;
+
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1c232e;
+
+  --color-primary: #1f2733;
+  --color-primary-foreground: #faf9f6;
+
+  --color-secondary: #f5f2ec;
+  --color-secondary-foreground: #262f38;
+
+  --color-muted: #f0ede7;
+  --color-muted-foreground: #6f7782;
+
+  --color-accent: #1f9c8f;
+  --color-accent-foreground: #ffffff;
+
+  --color-cta: #0f4f3a;
+  --color-cta-hover: #0d442f;
+  --color-cta-foreground: #ffffff;
+
+  --color-destructive: #e03a3a;
+  --color-destructive-foreground: #ffffff;
+
+  --color-border: #e8e6e2;
+  --color-input: #e8e6e2;
+  --color-ring: #1f9c8f;
+
+  --radius: 0.625rem;
+
+  --color-status-new: #f5a623;
+  --color-status-new-bg: #fef7e8;
+  --color-status-new-text: #c47a1c;
+
+  --color-status-contacted: #33aaff;
+  --color-status-contacted-bg: #e8f5ff;
+  --color-status-contacted-text: #1c7fcc;
+
+  --color-status-viewing: #7a5ce6;
+  --color-status-viewing-bg: #f2edff;
+  --color-status-viewing-text: #5a3dc2;
+
+  --color-status-negotiating: #4a7be6;
+  --color-status-negotiating-bg: #eef4ff;
+  --color-status-negotiating-text: #355bb8;
+
+  --color-status-won: #3aa66a;
+  --color-status-won-bg: #e8f7ef;
+  --color-status-won-text: #2c7d50;
+
+  --color-status-lost: #8c8c8c;
+  --color-status-lost-bg: #f2f2f2;
+  --color-status-lost-text: #6b6b6b;
+
+  --color-sidebar-background: #fdfcfb;
+  --color-sidebar-foreground: #6f7782;
+  --color-sidebar-primary: #1f2733;
+  --color-sidebar-primary-foreground: #faf9f6;
+  --color-sidebar-accent: #f7f4ef;
+  --color-sidebar-accent-foreground: #1f2733;
+  --color-sidebar-border: #eceae6;
+  --color-sidebar-ring: #1f9c8f;
+
+  --color-teal-50: #f2fbfa;
+  --color-teal-100: #e6f7f5;
+  --color-teal-200: #ccefeb;
+  --color-teal-300: #99dfd7;
+  --color-teal-400: #33c0b0;
+  --color-teal-500: #1f9c8f;
+  --color-teal-600: #197a6f;
+  --color-teal-700: #145f57;
+  --color-teal-800: #104a44;
+  --color-teal-900: #0c3531;
+
+  --h1-desktop: 48px;
+  --h2-desktop: 32px;
+  --h3-desktop: 24px;
+  --h4-desktop: 18px;
+
+  --h1-mobile: 36px;
+  --h2-mobile: 28px;
+  --h3-mobile: 20px;
+  --h4-mobile: 18px;
+
+  --text-base: 16px;
+  --text-large: 18px;
+
+  --lh-tight: 1.2;
+  --lh-normal: 1.4;
+  --lh-relaxed: 1.5;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 2.5rem;
+  --space-6: 4rem;
+}
+
+
+/* ============================================================
+   DARK MODE TOKENS (MATCHING TAILWIND v4)
+============================================================ */
+.dark {
+  --color-background: 220 20% 8%;
+  --color-foreground: 40 15% 95%;
+
+  --color-card: 220 18% 11%;
+  --color-card-foreground: 40 15% 95%;
+
+  --color-popover: 220 18% 11%;
+  --color-popover-foreground: 40 15% 95%;
+
+  --color-primary: 40 20% 98%;
+  --color-primary-foreground: 220 20% 12%;
+
+  --color-secondary: 220 15% 15%;
+  --color-secondary-foreground: 40 15% 92%;
+
+  --color-muted: 220 12% 18%;
+  --color-muted-foreground: 40 8% 60%;
+
+  --color-accent: 172 55% 42%;
+  --color-accent-foreground: 0 0% 100%;
+
+  --color-cta: 150 55% 28%;
+  --color-cta-hover: 150 55% 24%;
+  --color-cta-foreground: 0 0% 100%;
+
+  --color-destructive: 0 62% 45%;
+  --color-destructive-foreground: 40 15% 95%;
+
+  --color-border: 220 12% 18%;
+  --color-input: 220 12% 18%;
+  --color-ring: 172 55% 42%;
+
+  --color-sidebar-background: 220 20% 6%;
+  --color-sidebar-foreground: 40 10% 65%;
+  --color-sidebar-primary: 40 20% 98%;
+  --color-sidebar-primary-foreground: 220 20% 12%;
+  --color-sidebar-accent: 220 15% 14%;
+  --color-sidebar-accent-foreground: 40 15% 92%;
+  --color-sidebar-border: 220 12% 16%;
+  --color-sidebar-ring: 172 55% 42%;
+
+  --color-teal-50: 172 50% 10%;
+  --color-teal-100: 172 48% 14%;
+  --color-teal-200: 172 46% 20%;
+  --color-teal-300: 172 44% 30%;
+  --color-teal-400: 172 46% 42%;
+  --color-teal-500: 172 50% 50%;
+  --color-teal-600: 172 52% 60%;
+  --color-teal-700: 172 54% 70%;
+  --color-teal-800: 172 56% 80%;
+  --color-teal-900: 172 58% 90%;
+}
+
+/* ============================================================
+   BASE STYLES (NO @apply HERE — TURBOPACK SAFE)
+============================================================ */
+@layer base {
+  html, body, input, button, textarea, select {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: hsl(var(--color-foreground));
+  }
+
+  body {
+    background: hsl(var(--color-background));
+    color: hsl(var(--color-foreground));
+    font-size: var(--text-base);
+    line-height: var(--lh-relaxed);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1 {
+    font-size: var(--h1-desktop);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+  }
+
+  h2 {
+    font-size: var(--h2-desktop);
+    font-weight: 600;
+    line-height: var(--lh-tight);
+  }
+
+  h3 {
+    font-size: var(--h3-desktop);
+    font-weight: 600;
+    line-height: var(--lh-normal);
+  }
+
+  h4, h5, h6 {
+    font-size: var(--h4-desktop);
+    font-weight: 600;
+  }
+
+  p, li {
+    font-size: var(--text-base);
+    line-height: var(--lh-relaxed);
+    color: hsl(var(--color-muted-foreground));
+  }
+
+  a {
+    transition: color 0.2s;
+  }
+
+  a:hover {
+    color: hsl(var(--color-accent));
+  }
+
+  strong, b {
+    font-weight: 600;
+    color: hsl(var(--color-foreground));
+  }
+
+  @media (max-width: 768px) {
+    h1 { font-size: var(--h1-mobile); }
+    h2 { font-size: var(--h2-mobile); }
+    h3 { font-size: var(--h3-mobile); }
+    h4, h5, h6 { font-size: var(--h4-mobile); }
+  }
+}
+
+/* ============================================================
+   UTILITIES (SAFE WITH TAILWIND v4)
+============================================================ */
+@utility container {
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+  max-width: 1400px;
+}
+@utility hover-lift {
+  transition: all 0.3s ease-out;
+}
+
+/*@utility hover-lift:hover {
+  transform: translateY(-6px);
+}*/
+
+@utility shadow-card {
+  box-shadow: 0 1px 3px hsl(var(--color-foreground) / 0.04);
+}
+
+@utility text-gradient {
+  background: linear-gradient(135deg, hsl(var(--color-foreground)) 0%, hsl(var(--color-accent)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ============================================================
+   KEYFRAMES
+============================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ============================================================
+   MARKDOWN STYLES
+============================================================ */
+.markdown-body {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: hsl(var(--color-foreground));
+}
+
+.markdown-body h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.markdown-body h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
