@@ -30,7 +30,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
-import router from "next/dist/shared/lib/router/router";
 
 type ProfileStatus = "pending" | "approved" | "rejected";
 
@@ -56,7 +55,7 @@ interface CustomerListing {
   leads_count: number;
 }
 
-export default function AdminCustomerDetailPage({params}: { params: { id: string } }) {
+export default function AdminCustomerDetailPage() {
   const {id} = useParams()
   const router = useRouter();
   const queryClient = useQueryClient();
