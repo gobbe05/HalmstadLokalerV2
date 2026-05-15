@@ -1,5 +1,4 @@
 'use client'
-import { Helmet } from "react-helmet-async";
 import { Property } from "@/types/property";
 import { useCityContext } from "@/contexts/CityContext";
 
@@ -62,11 +61,12 @@ export function ItemListSchema({ name, properties, maxItems = 10 }: ItemListSche
   };
 
   return (
-    <Helmet>
+    /*<Helmet>
       <script type="application/ld+json">
         {JSON.stringify(structuredData)}
       </script>
-    </Helmet>
+    </Helmet>*/
+    <></>
   );
 }
 
